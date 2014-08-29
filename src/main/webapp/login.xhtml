@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageHeader">
+
+  <div id="divPageHead" class="divPageHead">
+
+	<div class="divHeadCell1">
+		<br />
+		<h:outputLabel value="#{lbls['app.title']}" styleClass="pageHeadTitulo1" />
+	</div>
+	<div class="divHeadCell2">
+	</div>
+	<div class="divHeadCell3">
+	</div>
+
+	<div class="divCleanPosision"></div>
+  </div>
+
+</ui:define>
+
+<ui:define name="pageMenu">
+	<br/>
+</ui:define>
+
+<ui:define name="pageContent">
+
+<h:form id="frmLoggin" styleClass="frmPnlLogin">
+
+<h:outputText value="#{lbls['tit.scr.logIn']}" />
+<br />
+<br />
+<p:panel styleClass="frmPnlCenter">
+
+  <h:panelGrid id="tblData" columns="2" styleClass="frmPnlForm frmPnlLogin">
+
+		<p:outputLabel for="txtCode" value="#{lbls['lbl.usr.code']}" />
+		<p:inputText id="txtCode" value="#{UsuariosMBean.usuario.user}" required="true">
+			<f:validateLength for="txtCode" minimum="4" maximum="16"/>
+		</p:inputText>
+
+
+		<p:outputLabel for="txtPass" value="#{lbls['lbl.usr.pass']}" />
+		<p:password id="txtPass" value="#{UsuariosMBean.usuario.pass}" required="true">
+			<f:validateLength for="txtCode" minimum="4" maximum="16"/>
+		</p:password>
+
+
+		<h:outputText value="#{lbls['lbl.usr.lang']}" />
+		<p:selectOneMenu id="txtLang" value="#{SessionMBean.idioma}">
+			<f:selectItem itemLabel="#{lbls['lbl.usr.lang.es']}" itemValue="es" />
+			<f:selectItem itemLabel="#{lbls['lbl.usr.lang.en']}" itemValue="en" />
+		</p:selectOneMenu>
+		<p:spacer width="0" />
+
+  </h:panelGrid>
+
+  <br />
+
+  <h:panelGrid id="tblBtn" columns="2" styleClass="frmPnlLogin">
+	<p:commandButton id="btnLogin" value="#{lbls['btn.login']}" styleClass="btnAccionP"
+			action="#{UsuariosMBean.doLogin}" ajax="false"
+			validateClient="true" />
+
+	<p:commandButton id="btnClean" value="#{lbls['btn.limpiar']}" styleClass="btnAccionP" update="@this">
+		<f:setPropertyActionListener target="#{UsuariosMBean.usuario.user}" value="" />
+		<f:setPropertyActionListener target="#{UsuariosMBean.usuario.pass}" value="" />
+	</p:commandButton>
+			
+  </h:panelGrid>
+
+</p:panel>
+
+<br />
+<br />
+
+<h:panelGrid id="tblBtn2" columns="5">
+	<h:commandButton value="MED1" action="#{UsuariosMBean.doLogin}" onclick="logMED();"/>
+	<h:commandButton value="ENF1" action="#{UsuariosMBean.doLogin}" onclick="logENF();"/>
+	<h:commandButton value="AUX1" action="#{UsuariosMBean.doLogin}" onclick="logAUX();"/>
+	<h:commandButton value="REA1"  action="#{UsuariosMBean.doLogin}" onclick="logREA();"/>
+	<h:commandButton value="TSOC1" action="#{UsuariosMBean.doLogin}" onclick="logTSOC();"/>
+</h:panelGrid>
+
+</h:form>
+
+<script type="text/javascript">
+function logMED() { setValue("med1", "med1", "es"); }
+function logENF() { setValue("enf1", "enf1", "es"); }
+function logAUX() { setValue("aux1", "aux1", "es"); }
+function logREA() { setValue("rea1", "rea1", "es"); }
+function logTSOC() { setValue("tsoc1", "tsoc1", "es"); }
+function setValue(usr, pas, idi) {
+	document.getElementById("frmLoggin:txtCode").value=usr;
+	document.getElementById("frmLoggin:txtPass").value=pas;
+	document.getElementById("frmLoggin:txtLang").value=idi;
+}
+</script>
+
+</ui:define>
+
+
+</ui:composition>

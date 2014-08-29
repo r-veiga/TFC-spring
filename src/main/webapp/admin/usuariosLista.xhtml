@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.usr']}" styleClass="titPagina1" />
+<br/>
+<br/>
+<h:form id="frmBuscar">
+<p:panel>
+<p:panelGrid columns="4" styleClass="frmPnlForm">
+	<h:outputText value="#{lbls['lbl.dp.nombre']}" />
+	<h:inputText id="txtExp" value="#{UsuariosMBean.usuario.nombre}" />
+ 	<p:spacer height="0"/>
+ 	<p:spacer height="0"/>
+
+	<h:outputText value="#{lbls['lbl.dp.apellidos']}" />
+	<h:inputText id="txtDNI" value="#{UsuariosMBean.usuario.apellidos}" />
+	<p:commandButton id="btnBuscar" value="#{lbls['btn.buscar']}" styleClass="btnAccionP"
+			action="#{UsuariosMBean.doBuscarTodos}" ajax="false"
+			update=":frmBuscar:tblData" />
+	<p:commandButton id="btnNuevor" value="#{lbls['btn.nuevo']}" styleClass="btnAccionP"
+			action="usuarioDatos" ajax="false" />
+</p:panelGrid>
+</p:panel>
+<br />
+<h:outputText value="#{lbls['tit.scr.usr.lista']}" styleClass="titLista"/>
+<br />
+<br />
+<p:dataTable id="tblData" var="usr" value="#{UsuariosMBean.usuarios}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{UsuariosMBean.usuario}" rowKey="#{usr.id}"
+	filteredValue="#{UsuariosMBean.listaDatosTablaFiltrados}">
+
+	<p:ajax event="rowSelect" listener="#{UsuariosMBean.onRowSelect}" update=":frmBuscar" />
+	<p:ajax event="rowUnselect" listener="#{UsuariosMBean.onRowUnselect}" update=":frmBuscar" />
+
+	<p:column headerText="#{lbls['lbl.dp.nombre']}"
+			filterBy="#{usr.nombre} #{usr.apellidos}" filterMatchMode="contains">
+		<h:outputText value="#{usr.nombre} #{usr.apellidos}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.contacto.email']}"
+			filterBy="#{usr.email}" filterMatchMode="contains">
+		<h:outputText value="#{usr.email}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.usr.activo']}" styleClass="tblColCorto">
+		<h:outputText value="#{(usr.fecBaja eq NULL)?lbls['def.valor.si']:lbls['def.valor.no']}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.usr.type']}" styleClass="tblColId">
+		<h:outputText value="#{usr.tipo}" />
+	</p:column>
+
+	<p:column styleClass="tblColIcon">
+		<p:commandButton icon="ui-icon-search" title="#{lbls['btn.ver']}"
+				action="#{UsuariosMBean.doVerDatosUsuario}" ajax="false">
+			<f:setPropertyActionListener value="#{usr}" target="#{UsuariosMBean.usuario}" />
+		</p:commandButton>
+	</p:column>
+
+	<f:facet name="footer">
+	<p:row>
+		<p:column colspan="3">
+		<h:outputText value="#{lbls['tbl.registros.num']} #{UsuariosMBean.usuarios.size()}" />
+		</p:column>
+	</p:row>
+	</f:facet>
+</p:dataTable>
+
+</h:form>
+
+</ui:define>
+
+</ui:composition>

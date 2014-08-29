@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.site']}" styleClass="titPagina1" />
+<br />
+<br />
+<div id="divPnl2Zonas"  class="divPnl2Zonas">
+
+<div id="divPnl2ZonasIzq" class="divPnl2ZonasIzq">
+
+<h:outputText value="#{lbls['tit.scr.site.notas']}" styleClass="titPagina2" />
+<br />
+<br />
+<h:form id="frmLstNotas">
+<p:dataTable id="tblNotas" var="nota" value="#{MiSiteMBean.notas}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{MiSiteMBean.nota}" rowKey="#{nota.id}">
+
+	<p:ajax event="rowSelect" listener="#{MiSiteMBean.onNotasRowSelect}" />
+
+	<p:column headerText="#{lbls['lbl.fecha']}" styleClass="tblColFecha">
+		<h:outputText value="#{nota.id.fecha}">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+		</h:outputText>
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.descripcion']}" styleClass="tblColTxt">
+		<h:outputText value="#{nota.descripcion}" />
+	</p:column>
+
+	<p:column styleClass="tblColIcon">
+		<p:commandButton icon="ui-icon-trash" title="#{lbls['btn.borrar']}"
+				action="#{MiSiteMBean.doBorrarNota}" ajax="false"
+				update=":frmNota:tblNotas">
+			<f:setPropertyActionListener value="#{nota}" target="#{MiSiteMBean.nota}" />
+		</p:commandButton>
+	</p:column>
+
+
+	<f:facet name="footer">
+	<p:row>
+		<p:column colspan="3">
+			<h:outputText value="#{lbls['tbl.registros.num']} #{MiSiteMBean.notas.size()}" />
+		</p:column>
+	</p:row>
+	</f:facet>
+
+</p:dataTable>
+
+<p:commandButton id="btnOpenDlg" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+		onclick="PF('dlgNota').show();" />
+
+</h:form>
+</div>
+
+
+<div id="divPnl2ZonasDrch" class="divPnl2ZonasDch">
+
+<h:outputText value="#{lbls['tit.scr.site.citas']}" styleClass="titPagina2"  rendered="#{SessionMBean.usuario.categoria eq 'MEDICO'}"/>
+<br />
+<br />
+<p:dataTable id="tblCitas" var="cita" value="#{MiSiteMBean.citas}"
+	scrollable="true" scrollHeight="180"
+	rendered="#{SessionMBean.usuario.categoria eq 'MEDICO'}">
+
+
+	<p:column headerText="#{lbls['lbl.fecha']}" styleClass="tblColFecha">
+		<h:outputText value="#{cita.id.fecha}">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+		</h:outputText>
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.pac']}" styleClass="tblColTxt">
+		<h:outputText value="#{cita.paciente.nombre} #{cita.paciente.apellidos}" />
+	</p:column>
+
+	<f:facet name="footer">
+	<p:row>
+		<p:column colspan="2">
+			<h:outputText value="#{lbls['tbl.registros.num']} #{MiSiteMBean.citas.size()}" />
+		</p:column>
+	</p:row>
+	</f:facet>
+
+</p:dataTable>
+
+</div>
+
+<div class="divCleanPosision"></div>
+
+</div>
+
+
+<p:dialog header="#{lbls['lbl.notas']}" widgetVar="dlgNota" resizable="false">
+<h:form id="frmDlgNota">
+	<h:outputText value="#{lbls['tit.scr.site.notaNueva']}" styleClass="titPagina2" />
+	<br />
+	<br />
+	<p:outputLabel for="txtNota" value="#{lbls['lbl.descripcion']}" />
+	<br />
+	<p:inputTextarea id="txtNota" value="#{MiSiteMBean.descripcion}"
+			rows="5" cols="50" maxlength="500" 
+			autoResize="false" required="true" />
+
+	<p:commandButton id="btnNNota" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+			action="#{MiSiteMBean.doCrearNota}" ajax="false"
+			update=":frmNota:tblNotas"  oncomplete="PF('dlgNota').hide();" />
+</h:form>
+</p:dialog>
+
+
+</ui:define>
+
+</ui:composition>

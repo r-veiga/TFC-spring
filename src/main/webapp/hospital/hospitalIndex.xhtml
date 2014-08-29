@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.hosp']}" styleClass="titPagina1" />
+<br />
+<br />
+<h:form id="frmBuscar">
+<p:panel>
+<p:panelGrid columns="3" styleClass="frmPnlForm">
+	<h:outputText value="#{lbls['lbl.pac.expediente']}" />
+	<h:inputText id="txtExp" value="#{PacientesMBean.paciente.expediente}" />
+ 	<p:spacer height="0"/>
+
+	<h:outputText value="#{lbls['lbl.dp.dni']}" />
+	<h:inputText id="txtDNI" value="#{PacientesMBean.paciente.dni}" />
+	<p:commandButton id="btnBuscar" value="#{lbls['btn.buscar']}" styleClass="btnAccionP"
+			action="#{PacientesMBean.doBuscarHospitalizados}" ajax="false"
+			update=":frmBuscar:tblData" />
+</p:panelGrid>
+</p:panel>
+<br />
+<h:outputText value="#{lbls['tit.scr.hosp.lista']}" styleClass="titLista"/>
+<br />
+<br />
+<p:dataTable id="tblData" var="pac" value="#{PacientesMBean.pacientes}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{PacientesMBean.paciente}" rowKey="#{pac.id}"
+	filteredValue="#{PacientesMBean.listaDatosTablaFiltrados}">
+
+	<p:ajax event="rowSelect" listener="#{PacientesMBean.onRowSelect}" update=":frmBuscar" />
+	<p:ajax event="rowUnselect" listener="#{PacientesMBean.onRowUnselect}" update=":frmBuscar" />
+
+	<p:column headerText="#{lbls['lbl.pac.expediente.num']}" styleClass="tblColId"
+			filterBy="#{pac.expediente}" filterMatchMode="contains" >
+		<h:outputText value="#{pac.expediente}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.dp.nombre']}"
+			filterBy="#{pac.nombre} #{pac.apellidos}" filterMatchMode="contains">
+		<h:outputText value="#{pac.nombre} #{pac.apellidos}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.pac.hospitalizado']}" styleClass="tblColFecha">
+		<h:outputText value="#{pac.fecIngreso}">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+		</h:outputText>
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.ubicacion']}" styleClass="tblColTxtP">
+		<h:outputText value="" />
+	</p:column>
+
+	<p:column styleClass="tblColIcon">
+		<p:commandButton icon="ui-icon-search" title="#{lbls['btn.ver']}" action="#{PacientesMBean.doVerDatosPaciente}" ajax="false">
+			<f:setPropertyActionListener value="#{pac}" target="#{PacientesMBean.paciente}" />
+		</p:commandButton>
+	</p:column>
+
+	<f:facet name="footer">
+	<p:row>
+		<p:column colspan="3">
+		<h:outputText value="#{lbls['tbl.registros.num']} #{PacientesMBean.pacientes.size()}" />
+		</p:column>
+	</p:row>
+	</f:facet>
+</p:dataTable>
+
+</h:form>
+
+</ui:define>
+
+</ui:composition>

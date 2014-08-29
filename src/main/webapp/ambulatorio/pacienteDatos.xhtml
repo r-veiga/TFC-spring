@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.pac.detalle']}" styleClass="titPagina1" />
+<br />
+<br />
+<h:form id="frmPac">
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosPers']}" styleClass="titPagina2" />
+<br />
+<br />
+<p:panelGrid styleClass="frmPnlForm">
+<p:row>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.pac.expediente']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.expediente}"
+	 			styleClass="frmFieldLbl"/>
+	</p:column>
+	<p:column>
+		<p:spacer width="20"/>
+	</p:column>
+	<p:column colspan="2"></p:column>
+	<p:column>
+		<p:spacer width="20"/>
+	</p:column>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.pac.hospitalizado']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.fecIngreso}" styleClass="frmFieldLbl">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+		</h:outputText>
+	</p:column>
+</p:row>
+
+<p:row>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.dp.nombre']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.nombre} #{PacientesMBean.paciente.apellidos}"
+				styleClass="frmFieldLbl"/>
+	</p:column>
+	<p:column></p:column>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.dp.dni']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.dni}"
+				styleClass="frmFieldLbl"/>
+	</p:column>
+	<p:column colspan="3" ></p:column>
+</p:row>
+
+<p:row>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.dp.fechaNac']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.fecNacimiento}" styleClass="frmFieldLbl">
+			<f:convertDateTime pattern="yyyy-MM-dd"/>
+		</h:outputText>
+	</p:column>
+	<p:column></p:column>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.contacto.telf.fijo']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.tlfFijo}"
+				styleClass="frmFieldLbl"/>
+	</p:column>
+	<p:column></p:column>
+	<p:column>
+		<h:outputText value="#{lbls['lbl.contacto.telf.movil']}" />
+	</p:column>
+	<p:column>
+		<h:outputText value="#{PacientesMBean.paciente.tlfMovil}"
+				styleClass="frmFieldLbl"/>
+	</p:column>
+</p:row>
+
+</p:panelGrid>
+</p:panel>
+
+<br />
+
+<div id="divPnl2Zonas"  class="divPnl2Zonas">
+
+<div id="divPnl2ZonasIzq" class="divPnl2ZonasIzq">
+
+	<p:dataTable id="tblCitas" var="cita" value="#{PacientesMBean.citas}"
+			scrollable="true" scrollHeight="125">
+
+	    <f:facet name="header">
+	        <h:outputText value="#{lbls['lbl.cita.proximas']}" />
+	    </f:facet>
+
+		<p:column headerText="#{lbls['lbl.fecha']}" styleClass="tblColFecha">
+			<h:outputText value="#{cita.id.fecha}">
+
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="#{lbls['lbl.especialidad']}">
+			<h:outputText value="#{cita.especialidad.nombre}" />
+		</p:column>
+
+	    <f:facet name="footer">
+			<p:commandButton id="btnNCita" value="#{lbls['btn.nueva']} #{lbls['lbl.cita']}" styleClass="btnAccion"
+					action="citasLista" />
+	    </f:facet>
+	</p:dataTable>
+</div>
+
+
+<div id="divPnl2ZonasDch" class="divPnl2ZonasDch">
+
+	<p:dataTable id="tblPruebas" var="pru" value="#{PacientesMBean.pruebas}"
+			scrollable="true" scrollHeight="125">
+
+	    <f:facet name="header">
+	        <h:outputText value="#{lbls['lbl.prueba.ultimas']}" />
+	    </f:facet>
+
+		<p:column headerText="#{lbls['lbl.fecha']}" styleClass="tblColFecha">
+			<h:outputText value="#{pru.fecPrueba}">
+				<f:convertDateTime pattern="yyyy-MM-dd"/>
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="#{lbls['lbl.prueba.titulo']}">
+			<h:outputText value="#{pru.nombre}" />
+		</p:column>
+
+	    <f:facet name="footer">
+			<p:commandButton id="btnNPrueba" value="#{lbls['btn.ver']}" styleClass="btnAccion"
+					action="pruebasLista" />
+		</f:facet>
+	</p:dataTable>
+</div>
+
+<div class="divCleanPosision"></div>
+
+</div>
+
+</h:form>
+
+</ui:define>
+
+</ui:composition>

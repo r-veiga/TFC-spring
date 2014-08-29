@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<div id="divPageHead" class="divPageHead">
+
+<h:form id="frmLogout">
+
+	<div class="divHeadCell1">
+		<br />
+		<h:outputText value="#{lbls['app.title']}" styleClass="pageHeadTitulo1" />
+	</div>
+	<div class="divHeadCell2">
+		<br />
+		<span>
+			<h:outputText value="#{lbls['lbl.usr']} : #{SessionMBean.usuario.nombre}" styleClass="pageHeadTitulo1"/>
+			<br />
+			<h:outputText value="#{lbls['lbl.usr.lastAcc']}: " styleClass="pageHeadTitulo2"/>
+			<h:outputText value="#{SessionMBean.usuario.ultimoAcceso}" styleClass="pageHeadTitulo2">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+			</h:outputText>
+		</span>
+	</div>
+	<div class="divHeadCell3">
+		<br />
+		<p:commandButton type="submit" value="#{lbls['btn.logout']}"
+			action="#{SessionMBean.doLogout}" ajax="false" icon="ui-icon-power" />
+	</div>
+
+	<div class="divCleanPosision"></div>
+</h:form>
+
+</div>
+
+</ui:composition>

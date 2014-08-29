@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence
+	version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="TFC_PU" transaction-type="RESOURCE_LOCAL">
+		<!--  transaction-type="JTA">  -->
+		<!--  transaction-type="RESOURCE_LOCAL">  -->
+
+<!-- Datasource - JNDI -->
+		<!-- jta-data-source>jdbc/MyOrderDB</jta-data-source -->
+
+		<class>rob.proyecto.tfc.data.entity.Anotacion</class>
+		<class>rob.proyecto.tfc.data.entity.AnotacionPK</class>
+		<class>rob.proyecto.tfc.data.entity.Categoria</class>
+		<class>rob.proyecto.tfc.data.entity.Cita</class>
+		<class>rob.proyecto.tfc.data.entity.CitaPK</class>
+		<class>rob.proyecto.tfc.data.entity.Especialidad</class>
+		<class>rob.proyecto.tfc.data.entity.Nota</class>
+		<class>rob.proyecto.tfc.data.entity.NotaPK</class>
+		<class>rob.proyecto.tfc.data.entity.Paciente</class>
+		<class>rob.proyecto.tfc.data.entity.Prueba</class>
+		<class>rob.proyecto.tfc.data.entity.PruebaPK</class>
+		<class>rob.proyecto.tfc.data.entity.Sanitario</class>
+		<class>rob.proyecto.tfc.data.entity.Ubicacion</class>
+		<class>rob.proyecto.tfc.data.entity.Usuario</class>
+
+<!-- Datasource - JDBC -->
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tfc"/>
+			<property name="javax.persistence.jdbc.user" value="tfc"/>
+			<property name="javax.persistence.jdbc.password" value="tfc"/>
+		</properties>
+
+	</persistence-unit>
+
+</persistence>

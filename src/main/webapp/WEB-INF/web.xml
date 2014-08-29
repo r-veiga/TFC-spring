@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+
+	<display-name>TFC</display-name>
+
+
+<!-- ========== CONTEXTO ========== -->
+
+	<!-- JSF -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>
+	            /WEB-INF/faces-config.xml,
+	            /WEB-INF/faces-navigation-config.xml
+	    </param-value>
+	</context-param>
+
+
+	<!-- Prime Faces -->
+<!-- 
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bootstrap</param-value>
+	</context-param>
+-->
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>native</param-value>
+	</context-param>
+
+
+	<!-- Spring -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+
+
+	<!-- TFC -->
+	<context-param>
+		<param-name>TFC_RUTA_ARCHIVOS_PRUEBAS</param-name>
+		<param-value>/home/rveiga/TFC_archivos_pruebas</param-value>
+	</context-param>
+
+
+
+<!-- ========== LISTENER ========== -->
+
+	<!-- SPRING -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- TFC -->
+	<listener>
+		<listener-class>rob.proyecto.tfc.web.listener.AppContextConfigListener</listener-class>
+	</listener>
+
+
+
+<!-- ========== SERVLET ========== -->
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+
+
+<!-- ========== FILTROS ========== -->
+
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+
+		<init-param>
+			<description>Size in bytes to be stored in hdd</description>
+			<param-name>thresholdSize</param-name>
+			<param-value>1024000</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>uploadDirectory</param-name>
+			<param-value>C:/Desarrollo/wk_roberto/tfc_upload/tmp</param-value>
+		</init-param>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+
+
+
+<!-- ========== PAGINAS INICIO ========== -->
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsf</welcome-file>
+		<welcome-file>login.jsf</welcome-file>
+	</welcome-file-list>
+
+
+
+<!-- ========== CONTROL DE LA SESION ========== -->
+
+	<session-config>
+		<!-- Tiempo en minutos -->
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+
+</web-app>

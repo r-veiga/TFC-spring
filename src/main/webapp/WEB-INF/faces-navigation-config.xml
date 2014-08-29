@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+
+<!-- Reglas de navegacion: Login -->
+
+<navigation-rule>
+	<from-view-id>/login.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/inicio.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>failure</from-outcome>
+		<to-view-id>/login.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<!-- Reglas de navegacion: Menu - Ambulatorio -->
+
+<navigation-rule>
+	<from-view-id>/ambulatorio/ambulatorioIndex.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/ambulatorio/pacienteDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+<navigation-rule>
+	<from-view-id>/ambulatorio/pacienteDatos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>citasLista</from-outcome>
+		<to-view-id>/ambulatorio/citasLista.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>pruebasLista</from-outcome>
+		<to-view-id>/ambulatorio/pruebasLista.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+<navigation-rule>
+	<from-view-id>/ambulatorio/citasLista.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/ambulatorio/pacienteDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+<navigation-rule>
+	<from-view-id>/ambulatorio/pruebasLista.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/ambulatorio/pacienteDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<!-- Reglas de navegacion: Menu - Hopitalizaciones -->
+
+<navigation-rule>
+	<from-view-id>/hospital/hospitalIndex.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/hospital/anotaciones.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<!-- Reglas de navegacion: Menu - Medico -->
+
+<navigation-rule>
+	<from-view-id>/medico/medicoIndex.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/medico/medicoIndex.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<!-- Reglas de navegacion: Menu - Administracion -->
+
+<navigation-rule>
+	<from-view-id>/admin/adminIndex.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>pacientesLista</from-outcome>
+		<to-view-id>/admin/pacientesLista.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>sanitariosLista</from-outcome>
+		<to-view-id>/admin/sanitariosLista.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<navigation-rule>
+	<from-view-id>/admin/pacientesLista.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/pacienteDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/admin/pacienteDatos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/pacientesLista.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<navigation-rule>
+	<from-view-id>/admin/sanitariosLista.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/sanitarioDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/admin/sanitarioDatos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/sanitariosLista.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+<navigation-rule>
+	<from-view-id>/admin/usuariosLista.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/usuarioDatos.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+<navigation-rule>
+	<from-view-id>/admin/usuarioDatos.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>success</from-outcome>
+		<to-view-id>/admin/usuariosLista.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+
+
+<!-- Reglas de navegacion: Globales -->
+
+<navigation-rule>
+	<from-view-id>*</from-view-id>
+	<navigation-case>
+		<from-outcome>accAmbulatorio</from-outcome>
+		<to-view-id>/ambulatorio/ambulatorioIndex.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>accHospital</from-outcome>
+		<to-view-id>/hospital/hospitalIndex.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>accMedico</from-outcome>
+		<to-view-id>/medico/medicoIndex.xhtml</to-view-id>
+	</navigation-case>
+	<navigation-case>
+		<from-outcome>accAdmin</from-outcome>
+		<to-view-id>/admin/adminIndex.xhtml</to-view-id>
+	</navigation-case>
+</navigation-rule>
+
+
+</faces-config>

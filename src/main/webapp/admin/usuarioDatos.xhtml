@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.usr.detalle']}" styleClass="titPagina1"/>
+<br/>
+<h:form id="frmUsr">
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosProf']}" styleClass="titPagina2" />
+<br/>
+<br/>
+  <p:panelGrid styleClass="frmPnlForm">
+  <p:row>
+	<p:column>
+		<h:outputText id="lblUsr" value="#{lbls['lbl.usr.code']}" />
+	</p:column>
+	<p:column>
+		<h:inputText id="txtUsr" value="#{UsuariosMBean.usuario.user}" styleClass="frmFieldTxt" />
+	</p:column>
+	<p:column>
+		<p:spacer width="20"/>
+	</p:column>
+	<p:column>
+		<h:outputText id="lblPas" value="#{lbls['lbl.usr.pass']}" />
+	</p:column>
+	<p:column>
+		<h:inputText id="txtPas" value="#{UsuariosMBean.usuario.pass}" styleClass="frmFieldTxt" />
+	</p:column>
+  </p:row>
+  <p:row>
+	<p:column>
+		<h:outputText id="lblTipo" value="#{lbls['lbl.usr.type']}" />
+	</p:column>
+	<p:column>
+		<p:selectOneMenu id="txtTipo" value="#{UsuariosMBean.usuario.tipo}" styleClass="frmFieldTxt">
+			<f:selectItem itemLabel="#{lbls['lbl.usr.tipo.admin']}" itemValue="ADMINISTRATIVO" />
+			<f:selectItem itemLabel="#{lbls['lbl.usr.tipo.sanitario']}" itemValue="SANITARIO" />
+		</p:selectOneMenu>
+	</p:column>
+	<p:column colspan="3"/>
+  </p:row>
+  <p:row>
+	<p:column>
+		<h:outputText id="lblFAlta" value="#{lbls['lbl.fecha.alta']}" />
+	</p:column>
+	<p:column>
+		<h:outputText id="txtFAlta" value="#{UsuariosMBean.usuario.fecAlta}" styleClass="frmFieldTxt">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+		</h:outputText>
+	</p:column>
+	<p:column />
+	<p:column>
+		<h:outputText id="lblFBaja" value="#{lbls['lbl.fecha.baja']}" />
+	</p:column>
+	<p:column>
+		<h:outputText id="txtFBaja" value="#{UsuariosMBean.usuario.fecBaja}" styleClass="frmFieldTxt">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+		</h:outputText>
+	</p:column>
+  </p:row>
+  <p:row>
+	<p:column>
+		<h:outputText id="lblFAcc" value="#{lbls['lbl.fecha.ultimo']}" />
+	</p:column>
+	<p:column>
+		<h:outputText id="txtFAcc" value="#{UsuariosMBean.usuario.fecAcceso}" styleClass="frmFieldTxt">
+			<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+		</h:outputText>
+	</p:column>
+	<p:column colspan="3"/>
+  </p:row>
+  </p:panelGrid>
+</p:panel>
+
+
+<br />
+
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosPers']}" styleClass="titPagina2" />
+<br/>
+<br/>
+<p:panelGrid columns="2" styleClass="frmPnlForm">
+
+  <p:panelGrid id="pnlDatosPers" columns="2" styleClass="frmPnlForm">
+
+	<h:outputText id="lblNom" value="#{lbls['lbl.dp.nombre']}" />
+	<h:inputText id="txtNom" value="#{UsuariosMBean.usuario.nombre}" styleClass="frmFieldTxt" />
+	
+	<h:outputText id="lblApe" value="#{lbls['lbl.dp.apellidos']}" />
+	<h:inputText id="txtApe" value="#{UsuariosMBean.usuario.apellidos}" styleClass="frmFieldTxt" />
+
+	<h:outputText id="lblEmail" value="#{lbls['lbl.contacto.email']}" />
+	<h:inputText id="txtEmail" value="#{UsuariosMBean.usuario.email}" styleClass="frmFieldTxt" />
+
+  </p:panelGrid>
+
+  <p:panelGrid columns="2" styleClass="frmPnlForm">
+  <p:dataTable id="radioDT" var="san" value="#{UsuariosMBean.sanitariosSinUsuario}"
+		selection="#{UsuariosMBean.usuario.sanitario}" rowKey="#{san.id}">
+
+	<p:ajax event="rowSelect" listener="#{UsuariosMBean.onSanitarioRowSelect}" update=":frmUsr:pnlDatosPers" />
+	<p:ajax event="rowUnselect" listener="#{UsuariosMBean.onSanitarioUnselect}" update=":frmUsr:pnlDatosPers" />
+        
+        <f:facet name="header">
+            <h:outputText value="#{lbls['lbl.san']}" />
+        </f:facet>
+
+        <p:column selectionMode="single" styleClass="tblColIcon" />
+
+        <p:column headerText="Id">
+            <h:outputText value="#{san.nombre} #{san.apellidos}" />
+        </p:column>
+
+        <p:column headerText="especialidad">
+            <h:outputText value="#{ApplicationMBean.getNombreCategoria(san.idEspecialidad)}" />
+        </p:column>
+    </p:dataTable>
+  </p:panelGrid>
+
+</p:panelGrid>
+</p:panel>
+
+
+<br />
+
+
+<p:panel styleClass="frmPnlCenter">
+<p:commandButton id="btnNew" value="#{lbls['btn.nuevo']}" styleClass="btnAccion"
+		action="#{UsuariosMBean.doCrearUsuario}"
+		rendered="#{UsuariosMBean.usuario.id eq NULL}" />
+
+<p:commandButton id="btnUpd" value="#{lbls['btn.modificar']}" styleClass="btnAccion"
+		action="#{UsuariosMBean.doActualizarUsuario}"
+		rendered="#{!(UsuariosMBean.usuario.id eq NULL)}" />
+
+<p:commandButton id="btnDel" value="#{lbls['btn.darBaja']}" styleClass="btnAccion"
+		action="#{UsuariosMBean.doBorrarUsuario}"
+		rendered="#{!(UsuariosMBean.usuario.id eq NULL)}" />
+
+<p:commandButton id="btnBack" value="#{lbls['btn.volver']}" styleClass="btnAccion"
+		action="#{SessionMBean.doOpcionMenu('usuariosLista')}" />
+
+</p:panel>
+</h:form>
+
+</ui:define>
+
+</ui:composition>

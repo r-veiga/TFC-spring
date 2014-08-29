@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+
+		http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+
+    <context:annotation-config />
+
+	<context:component-scan base-package="rob.proyecto.tfc.core.service.impl" />
+	<context:component-scan base-package="rob.proyecto.tfc.core.dao.impl" />
+    <context:component-scan base-package="rob.proyecto.tfc.data.entity" />
+
+
+    <!-- ************ JPA configuration *********** -->
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf" />
+    </bean>
+
+
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="persistenceUnitName" value="TFC_PU_TEST" />
+
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+<!--
+	<jdbc:embedded-database id="dataSource" type="H2">
+	    <jdbc:script location="classpath:db-schema.sql"/>
+	    <jdbc:script location="classpath:db-test-data.sql"/>
+	</jdbc:embedded-database>
+
+	# an in-memory, anonymous database
+	#jdbc.url=jdbc:h2:mem
+	# a local, file-based database
+	jdbc.url=jdbc:h2:~/h2-testdb;MODE=MYSQL
+	jdbc.user=sa
+	jdbc.password=
+-->
+
+	<bean id="dataSource" class="org.h2.jdbcx.JdbcDataSource">
+		<!-- <property name="driver" value="org.h2.Driver"/> -->
+		<property name="url" value="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL;TRACE_LEVEL_SYSTEM_OUT=2"/>
+		<property name="user" value="sa"/>
+		<property name="password" value=""/>
+	</bean>
+
+	<jdbc:initialize-database>
+	    <jdbc:script location="classpath:db-test-schema.sql"/>
+	    <jdbc:script location="classpath:db-test-data.sql"/>
+	</jdbc:initialize-database>
+
+
+</beans>

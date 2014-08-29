@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.hosp.notas']}" styleClass="titPagina1" />
+<br />
+<br />
+<h:outputText value="#{lbls['lbl.pac']} : #{SessionMBean.pacienteSelected.expediente} - #{SessionMBean.pacienteSelected.nombre} #{SessionMBean.pacienteSelected.apellidos}"
+				styleClass="titPagina2" />
+<br />
+
+<h:form id="frmNotasDATA">
+<p:tabView>
+	<p:ajax process="@this" event="tabChange" listener="#{AnotacionesMBean.cambioTab}" update=":frmNotasDATA:tblData" />
+
+    <p:tab id="tabMED" title="#{lbls['tab.nota.med']}"> <!-- action="notasMedico" -->
+    <p:panel styleClass="frmPnlCenter">
+
+			<p:outputLabel for="txtNotaMED" value="#{lbls['tit.scr.hosp.notas.medico']}" />
+   			<p:inputTextarea id="txtNotaMED" value="#{AnotacionesMBean.texto}"
+				rows="5" cols="50" maxlength="500" 
+				required="true"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'MEDICO')}"/>
+
+			<p:commandButton id="btnDataMED" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+				action="#{AnotacionesMBean.doCrearAnotacion}" ajax="true"
+				update=":frmNotasDATA:tblData"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'MEDICO')}"/>
+
+	</p:panel>
+	</p:tab>
+
+
+	<p:tab id="tabENF" title="#{lbls['tab.nota.enf']}"> <!-- action="notasEnfermeria" -->
+    <p:panel styleClass="frmPnlCenter">
+    
+			<p:outputLabel for="txtNotaMED" value="#{lbls['tit.scr.hosp.notas.enfermeria']}" />
+			<p:inputTextarea id="txtNotaENF" value="#{AnotacionesMBean.texto}"
+				rows="5" cols="50" maxlength="500" 
+				disabled="#{!(SessionMBean.usuario.categoria eq 'ENFERMERIA')}"/>
+
+			<p:commandButton id="btnDataENF" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+				action="#{AnotacionesMBean.doCrearAnotacion}" ajax="true"
+				update=":frmNotasDATA:tblData"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'ENFERMERIA')}"/>
+
+	</p:panel>
+	</p:tab>
+
+
+	<p:tab id="tabAUX" title="#{lbls['tab.nota.aux']}"> <!-- action="notasAuxiliar" -->
+    <p:panel styleClass="frmPnlCenter">
+    
+			<p:outputLabel for="txtNotaMED" value="#{lbls['tit.scr.hosp.notas.auxiliar']}" />
+			<p:inputTextarea id="txtNotaAUX" value="#{AnotacionesMBean.texto}"
+				rows="5" cols="50" maxlength="500" 
+				required="true"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'AUXILIAR')}"/>
+
+			<p:commandButton id="btnDataAUX" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+				action="#{AnotacionesMBean.doCrearAnotacion}" ajax="true"
+				update=":frmNotasDATA:tblData"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'AUXILIAR')}"/>
+
+	</p:panel>
+	</p:tab>
+
+
+	<p:tab id="tabREA" title="#{lbls['tab.nota.rea']}"> <!-- action="notasRehabilitacion" -->
+    <p:panel styleClass="frmPnlCenter">
+    
+			<p:outputLabel for="txtNotaMED" value="#{lbls['tit.scr.hosp.notas.rehabilitacion']}" />
+			<p:inputTextarea id="txtNotaREA" value="#{AnotacionesMBean.texto}"
+				rows="5" cols="50" maxlength="500" 
+				required="true"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'REHABILITACION')}"/>
+
+			<p:commandButton id="btnDataREA" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+				action="#{AnotacionesMBean.doCrearAnotacion}" ajax="true"
+				update=":frmNotasDATA:tblData"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'REHABILITACION')}"/>
+
+	</p:panel>
+	</p:tab>
+
+
+	<p:tab id="tabTSOC" title="#{lbls['tab.nota.tsoc']}"> <!-- action="notasTSocial" -->
+    <p:panel styleClass="frmPnlCenter">
+
+			<p:outputLabel for="txtNotaMED" value="#{lbls['tit.scr.hosp.notas.tsocial']}" />
+			<p:inputTextarea id="txtNotaTSOC" value="#{AnotacionesMBean.texto}"
+				rows="5" cols="50" maxlength="500" 
+				required="true"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'TRABAJO_SOCIAL')}"/>
+
+			<p:commandButton id="btnDataTSOC" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+				action="#{AnotacionesMBean.doCrearAnotacion}" ajax="true"
+				update=":frmNotasDATA:tblData"
+				disabled="#{!(SessionMBean.usuario.categoria eq 'TRABAJO_SOCIAL')}"/>
+
+	</p:panel>
+	</p:tab>
+
+</p:tabView>
+
+<br />
+
+<p:dataTable id="tblData" var="nota" value="#{AnotacionesMBean.anotaciones}"
+	scrollable="true" scrollHeight="180">
+
+    <p:column headerText="#{lbls['lbl.fecha']}" styleClass="tblColFecha">
+        <h:outputText value="#{nota.id.fecha}">
+        	<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss.SSS"/>
+        </h:outputText>
+    </p:column>
+
+    <p:column headerText="#{lbls['lbl.dp.nombre']}" styleClass="tblColTxtP">
+        <h:outputText value="#{nota.sanitario.nombre} #{nota.sanitario.apellidos}" />
+    </p:column>
+
+    <p:column headerText="#{lbls['lbl.anotacion']}" styleClass="tblColTxtG">
+        <h:outputText value="#{nota.texto}" />
+    </p:column>
+
+	<f:facet name="footer">
+	<p:row>
+		<p:column colspan="3">
+		<h:outputText value="#{lbls['tbl.registros.num']} #{AnotacionesMBean.anotaciones.size()}" />
+		</p:column>
+	</p:row>
+	</f:facet>
+</p:dataTable>
+</h:form>
+
+</ui:define>
+
+</ui:composition>

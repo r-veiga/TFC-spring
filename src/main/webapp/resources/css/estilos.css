@@ -1,0 +1,270 @@
+/** element defaults **/
+body{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
+
+
+/* --- Zonas de la Pagina --- */
+
+.divPageHead {
+	height: 55px;
+
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+
+	background: #2783C0
+}
+
+.divHeadCell1, .divHeadCell2, .divHeadCell3 {
+	height : 100%;
+	vertical-align: middle !important;
+	color: white; 
+}
+
+.divHeadCell1 {
+	width: 250px;
+	float: left;
+	text-align: center;
+}
+.divHeadCell2 { width: 400px; float: left; }
+.divHeadCell3 { width: 150px; float: right; text-align: center; }
+
+.pageHeadTitulo1 { font-size: 14px; }
+.pageHeadTitulo2 { font-size: 13px; }
+
+	/*---*/
+
+.divPageMenu {
+	height: 35px;
+
+	margin: 0px;
+	margin-top: 3px;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	border-bottom-width: thin;
+	padding: 0px;
+
+	vertical-align: bottom;
+}
+
+.pageMenuOpcion {
+	width: 150px;
+	height: 100%;
+
+	margin: 0px;
+	padding: 0px;
+
+	font-size: 14px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+	/*---*/
+.htmlBody__ {
+	margin: 0px;
+	padding: 0px;
+
+	border-color: black;
+	border-style: solid;
+	border-width: thin;
+}
+
+.divPageContent {
+	margin: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+/*
+	border-color: black;
+	border-style: solid;
+	border-width: thin;
+*/
+	padding: 0px;
+}
+
+	/*---*/
+
+.divPageFoot {
+	height: 40px;
+	width: 98.5%;
+
+	margin:0 auto;
+	margin-right:5px;
+	border: 0px;
+	padding: 0px;
+
+    position: fixed;
+    bottom: 0;
+
+	background: grey;
+}
+
+.divFootCell1, .divFootCell2, .divFootCell3 {
+	height: 100%;
+
+	font-size: 11px;
+	color: white; 
+}
+
+.divFootCell1 { width: 1px; float: left; }
+.divFootCell2 { width: 100%; text-align: center; }
+.divFootCell3 { width: 1px; float: right; }
+
+
+
+/* --- Titulos de pagina --- */
+
+.titPagina1 {
+	font-size: 16px;
+}
+
+.titPagina2 {
+	font-size: 14px;
+}
+
+.titFormulario {
+	font-size: 14px;
+}
+
+.titLista {
+	font-size: 14px;
+}
+
+
+
+/* --- Paneles --- */
+
+.divCleanPosision {
+	clear: both;	
+}
+
+.divPnl2Zonas {
+	border: 1px;
+/*	background-color: lime; */
+
+	text-align: center;
+}
+
+.divPnl2ZonasIzq, .divPnl2ZonasDch {
+	width: 45%;
+	height: 100%;
+
+	margin: 5px;
+ 	padding: 0px;
+
+	text-align: center;
+}
+
+.divPnl2ZonasIzq { float: left; margin-left: 20px; }
+.divPnl2ZonasDch { float: right; margin-right: 20px; }
+
+
+
+/* --- Botones --- */
+
+.btnAccion {
+	width: 120px;
+	font-size: 12px;
+}
+
+.btnAccionP {
+	width: 80px;
+	font-size: 12px;
+}
+
+.btnAccionG {
+	width: 150px;
+	height: 50px;
+	font-size: 13px;
+}
+
+
+/* --- Formularios--- */
+
+.frmPnlCenter {
+	text-align: center !important;
+}
+
+
+.frmPnlLogin {
+	width: 50%;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+}
+
+
+.frmPnlForm {
+
+}
+
+.frmPnlForm tr, .frmPnlForm td {
+	border-style: hidden !important;
+
+	text-align: left;
+}
+
+/* --- Formularios: Campos visualizacion / edicion --- */
+
+.frmFieldLbl {
+	width: 250px;
+	border-bottom-style: solid !important;
+	border-bottom-color: black !important;
+	border-bottom-width: 1px !important;
+}
+
+.frmFieldTxt{
+	
+}
+
+
+/* --- Tablas: Columnas --- */
+
+
+.tblColId {
+	width: 100px;
+	text-align: center;
+}
+
+.tblColCorto {
+	width: 60px;
+	text-align: center;
+}
+
+.tblColFecha {
+	width: 130px;
+	text-align: center;
+}
+
+.tblColHora{
+	width: 70px;
+	text-align: center;
+}
+
+.tblColTxt, .tblColTxtP, .tblColTxtG {
+	text-align: left;
+}
+
+.tblColTxtP {
+	width: 150px;
+}
+
+.tblColTxtG {
+	width: 300px;
+}
+
+.tblColIcon {
+	width: 37px;
+	padding: 1px !important;
+
+	text-align: center;
+}
+
+.tblColIcons2 {
+	width: 75px;
+	padding: 1px !important;
+
+	text-align: center;
+}
+

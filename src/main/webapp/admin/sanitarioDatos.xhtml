@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.san.detalle']}" styleClass="titPagina1"/>
+<br/>
+<h:form id="frmSan">
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosPers']}" styleClass="titPagina2" />
+<br/>
+<br/>
+  <p:panelGrid columns="2" styleClass="frmPnlForm">
+	
+	<h:outputText id="lblExp" value="#{lbls['lbl.san.colegiado']}" />
+	<h:inputText id="txtExp" value="#{SanitariosMBean.sanitario.colegiado}" styleClass="frmFieldTxt" />
+
+	<h:outputText id="lblDni" value="#{lbls['lbl.dp.dni']}" />
+	<h:inputText id="txtDni" value="#{SanitariosMBean.sanitario.dni}" styleClass="frmFieldTxt" />
+	
+	<h:outputText id="lblNom" value="#{lbls['lbl.dp.nombre']}" />
+	<h:inputText id="txtNom" value="#{SanitariosMBean.sanitario.nombre}" styleClass="frmFieldTxt" />
+	
+	<h:outputText id="lblApe" value="#{lbls['lbl.dp.apellidos']}" />
+	<h:inputText id="txtApe" value="#{SanitariosMBean.sanitario.apellidos}" styleClass="frmFieldTxt" />
+	
+	<h:outputText id="lblFNac" value="#{lbls['lbl.dp.fechaNac']}" />
+	<p:calendar id="txtFNac" value="#{SanitariosMBean.sanitario.fecNacimiento}" styleClass="frmFieldTxt"
+			mode="popup" showOn="both" navigator="true"
+			pattern="dd/MM/yyyy" locale="#{SessionMBean.idioma}"
+			required="false"  maxdate="#{ApplicationMBean.fechaToday}"/>/>
+
+  </p:panelGrid>
+</p:panel>
+
+
+<br />
+
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosProf']}" styleClass="titPagina2" />
+<br/>
+<br/>
+  <p:panelGrid columns="4" styleClass="frmPnlForm">
+
+	<h:outputText id="lblEsp" value="#{lbls['lbl.especialidad']}" />
+	<p:selectOneMenu id="txtEsp" value="#{SanitariosMBean.sanitario.idEspecialidad}" styleClass="frmFieldTxt">
+		<f:selectItem itemLabel="#{lbls['def.select']}" itemValue="" />
+		<f:selectItems value="#{ApplicationMBean.especialidades}"
+			var="esp" itemValue="#{esp.id}" itemLabel="#{esp.nombre}" itemDescription="#{esp.nombre}" />
+	</p:selectOneMenu>
+
+	<h:outputText id="lblCat" value="#{lbls['lbl.categoria']}" />
+	<p:selectOneMenu id="txtCat" value="#{SanitariosMBean.sanitario.categoria}" styleClass="frmFieldTxt" >
+		<f:selectItem itemLabel="#{lbls['def.select']}" itemValue="" />
+		<f:selectItems value="#{ApplicationMBean.categorias}"
+			var="cat" itemValue="#{cat.id}" itemLabel="#{cat.nombre}" itemDescription="#{cat.nombre}" />
+	</p:selectOneMenu>
+  </p:panelGrid>
+</p:panel>
+
+
+<br />
+
+
+<p:panel>
+<h:outputText value="#{lbls['lbl.contacto']}" styleClass="titPagina2" />
+<br/>
+<br/>
+  <p:panelGrid columns="2" styleClass="frmPnlForm">
+
+	<h:outputText id="lblTFijo" value="#{lbls['lbl.contacto.telf.fijo']}" />
+	<h:inputText id="txtTFijo" value="#{SanitariosMBean.sanitario.tlfFijo}" styleClass="frmFieldTxt" />
+	
+	<h:outputText id="lblTMvl" value="#{lbls['lbl.contacto.telf.movil']}" />
+	<h:inputText id="txtTMvl" value="#{SanitariosMBean.sanitario.tlfMovil}" styleClass="frmFieldTxt" />
+
+	<h:outputText id="lblEmail" value="#{lbls['lbl.contacto.email']}" />
+	<h:inputText id="txtEmail" value="#{SanitariosMBean.sanitario.email}" styleClass="frmFieldTxt" />
+
+  </p:panelGrid>
+
+</p:panel>
+
+
+<br />
+
+
+<p:panel styleClass="frmPnlCenter">
+<p:commandButton id="btnNew" value="#{lbls['btn.nuevo']}" styleClass="btnAccion"
+		action="#{SanitariosMBean.doCrearSanitario}"
+		rendered="#{SanitariosMBean.sanitario.id eq NULL}" />
+
+<p:commandButton id="btnUpd" value="#{lbls['btn.modificar']}" styleClass="btnAccion"
+		action="#{SanitariosMBean.doActualizarSanitario}"
+		rendered="#{!(SanitariosMBean.sanitario.id eq NULL)}" />
+
+<p:commandButton id="btnDel" value="#{lbls['btn.darBaja']}" styleClass="btnAccion"
+		action="#{SanitariosMBean.doBorrarSanitario}"
+		rendered="#{!(SanitariosMBean.sanitario.id eq NULL)}" />
+
+<p:commandButton id="btnBack" value="#{lbls['btn.volver']}" styleClass="btnAccion"
+		action="#{SessionMBean.doOpcionMenu('sanitariosLista')}" />
+
+</p:panel>
+</h:form>
+
+</ui:define>
+
+</ui:composition>

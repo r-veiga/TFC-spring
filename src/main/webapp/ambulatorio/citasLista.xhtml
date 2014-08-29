@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.pac.cita.reserva']}" styleClass="titPagina1" />
+<br />
+<br />
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosPers']}" styleClass="titPagina2" />
+<br />
+<p:panelGrid columns="2" styleClass="frmPnlForm">
+
+	<h:outputText value="#{lbls['lbl.pac.expediente']}" />
+	<h:outputText value="#{PacientesMBean.paciente.expediente}" styleClass="frmFieldLbl"/>
+
+	<h:outputText value="#{lbls['lbl.dp.nombre']}" />
+	<h:outputText value="#{PacientesMBean.paciente.nombre} #{PacientesMBean.paciente.apellidos}"
+			styleClass="frmFieldLbl"/>
+
+</p:panelGrid>
+</p:panel>
+
+<br />
+<h:form id="frmBuscar">
+
+<p:panel>
+<p:panelGrid columns="4" styleClass="frmPnlForm">
+	
+	<h:outputText id="lblEsp" value="#{lbls['lbl.especialidad']}" />
+	<p:selectOneMenu id="txtEsp" value="#{CitasMBean.cita.id.idEspecialidad}" styleClass="frmFieldTxt">
+		<f:selectItems value="#{ApplicationMBean.especialidades}"
+			var="esp" itemValue="#{esp.id}" itemLabel="#{esp.nombre}" itemDescription="#{esp.nombre}" />
+	</p:selectOneMenu>
+ 	<p:spacer height="0"/>
+ 	<p:spacer height="0"/>
+
+
+	<h:outputText value="#{lbls['lbl.fecha']}" />
+	<p:calendar id="txtFecha" value="#{CitasMBean.cita.id.fecha}" styleClass="frmFieldTxt"
+			mode="popup" showOn="both" navigator="true"
+			pattern="dd/MM/yyyy" locale="#{SessionMBean.idioma}"
+			required="true"  mindate="#{ApplicationMBean.fechaTomorrow}" />
+
+	<p:commandButton id="btnBuscar" value="#{lbls['btn.buscar']}" styleClass="btnAccionP"
+			action="#{CitasMBean.doBuscarCitasEspecialidadDia}" ajax="false"
+			update=":frmBuscar:tblData"/>
+
+	<p:commandButton id="btnBack" value="#{lbls['btn.volver']}" styleClass="btnAccion"
+			action="pacienteDatos" ajax="false" />
+
+</p:panelGrid>
+</p:panel>
+
+<br />
+
+<div id="divPnl2Zonas"  class="divPnl2Zonas">
+
+<div id="divPnl2ZonasIzq" class="divPnl2ZonasIzq">
+
+<p:dataTable id="tblData1" var="con" value="#{CitasMBean.consultasMitad1}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{CitasMBean.consulta}" rowKey="#{con.hora}">
+
+	<p:column headerText="#{lbls['lbl.hora']}" styleClass="tblColHora">
+		<h:outputText value="#{con.hora}" />
+	</p:column>
+
+	<p:column>
+		<p:commandButton id="btnCrear" value="#{lbls['btn.reservar']}" styleClass="btnAccion"
+				action="#{CitasMBean.doReservarCita}"
+				rendered="#{con.libre eq 1}">
+			<f:setPropertyActionListener value="#{con}" target="#{CitasMBean.consulta}" />
+		</p:commandButton>
+
+		<p:commandButton id="btnBorrar" value="#{lbls['btn.cancelar']}" styleClass="btnAccion"
+				action="#{CitasMBean.doAnularCita}"
+				rendered="#{con.libre eq 0}">
+			<f:setPropertyActionListener value="#{con}" target="#{CitasMBean.consulta}" />
+		</p:commandButton>
+	</p:column>
+</p:dataTable>
+
+</div>
+
+<div id="divPnl2ZonasDrch" class="divPnl2ZonasDrch">
+
+<p:dataTable id="tblData2" var="con" value="#{CitasMBean.consultasMitad2}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{CitasMBean.consulta}" rowKey="#{con.hora}">
+
+	<p:column headerText="#{lbls['lbl.hora']}" styleClass="tblColHora">
+		<h:outputText value="#{con.hora}" />
+	</p:column>
+
+	<p:column>
+		<p:commandButton id="btnCrear" value="#{lbls['btn.reservar']}" styleClass="btnAccion"
+				action="#{CitasMBean.doReservarCita}"
+				rendered="#{con.libre eq 1}">
+			<f:setPropertyActionListener value="#{con}" target="#{CitasMBean.consulta}" />
+		</p:commandButton>
+
+		<p:commandButton id="btnBorrar" value="#{lbls['btn.cancelar']}" styleClass="btnAccion"
+				action="#{CitasMBean.doAnularCita}"
+				rendered="#{con.libre eq 0}">
+			<f:setPropertyActionListener value="#{con}" target="#{CitasMBean.consulta}" />
+		</p:commandButton>
+	</p:column>
+</p:dataTable>
+
+</div>
+
+<div class="divCleanPosision"></div>
+
+</div>
+
+
+</h:form>
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/templates/paginaComun.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" >
+
+<ui:define name="pageContent">
+
+<h:outputText value="#{lbls['tit.scr.prueba']}" styleClass="titPagina1" />
+<br />
+<br />
+<p:panel>
+<h:outputText value="#{lbls['lbl.datosPers']}" styleClass="titPagina2" />
+<br />
+<p:panelGrid columns="2" styleClass="frmPnlForm">
+
+	<h:outputText value="#{lbls['lbl.pac.expediente']}" />
+	<h:outputText value="#{PacientesMBean.paciente.expediente}" styleClass="frmFieldLbl"/>
+
+	<h:outputText value="#{lbls['lbl.dp.nombre']}" />
+	<h:outputText value="#{PacientesMBean.paciente.nombre} #{PacientesMBean.paciente.apellidos}"
+			styleClass="frmFieldLbl"/>
+
+</p:panelGrid>
+
+</p:panel>
+
+<br />
+
+<br />
+<h:outputText value="#{lbls['tit.scr.prueba.lista']}" styleClass="titLista"/>
+<br />
+<br />
+<h:form id="frmLista">
+
+<p:dataTable id="tblPruebas" var="prb" value="#{PruebasMBean.pruebas}"
+	scrollable="true" scrollHeight="180"
+	selectionMode="single" selection="#{PruebasMBean.prueba}" rowKey="#{prb.id}">
+
+	<p:ajax event="rowSelect" listener="#{PruebasMBean.onRowSelect}" />
+
+	<p:column headerText="#{lbls['lbl.prueba.fecha']}" styleClass="tblColFecha"
+			filterBy="#{prb.fecPrueba}" filterMatchMode="contains">
+		<h:outputText value="#{prb.fecPrueba}">
+			<f:convertDateTime pattern="yyyy-MM-dd"/>
+		</h:outputText>
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.prueba.titulo']}"
+ 			filterBy="#{prb.nombre}" filterMatchMode="contains">
+		<h:outputText value="#{prb.nombre}" />
+	</p:column>
+
+	<p:column headerText="#{lbls['lbl.prueba.descripcion']}"
+			filterBy="#{prb.descripcion}" filterMatchMode="contains">
+		<h:outputText value="#{prb.descripcion}" />
+	</p:column>
+
+	<p:column styleClass="tblColIcons2">
+
+	    <p:commandButton title="#{lbls['btn.download']}" ajax="false"
+			onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+			<f:setPropertyActionListener value="#{prb}" target="#{PruebasMBean.prueba}" />
+	        <p:fileDownload value="#{PruebasMBean.archivoDownload}" />
+	    </p:commandButton>
+
+		<p:commandButton icon="ui-icon-trash" title="#{lbls['btn.borrar']}" action="#{PruebasMBean.doBorrarPrueba}" ajax="false">
+			<f:setPropertyActionListener value="#{prb}" target="#{PruebasMBean.prueba}" />
+		</p:commandButton>
+	</p:column>
+
+	<f:facet name="footer">
+		<h:outputText value="#{lbls['tbl.registros.num']} #{PruebasMBean.pruebas.size()}" />
+	</f:facet>
+</p:dataTable>
+
+<p:panel styleClass="frmPnlCenter">
+	<p:commandButton id="btnOpenDlg" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+			onclick="PF('dlgPrueba').show();" ajax="true" />
+
+	<p:commandButton id="btnBack" value="#{lbls['btn.volver']}" styleClass="btnAccion"
+			action="pacienteDatos" ajax="false" />
+</p:panel>
+</h:form>
+
+
+<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+	draggable="false" closable="false" resizable="false">
+    <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+</p:dialog>
+ 
+<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+}
+</script>
+
+
+<p:dialog header="#{lbls['lbl.prueba']}" widgetVar="dlgPrueba" resizable="false">
+<h:form id="frmDlgPrueba" enctype="multipart/form-data">
+<!-- p:growl id="messages" showDetail="true" / -->
+  <h:outputText value="#{lbls['tit.scr.prueba.nueva']}" styleClass="titPagina2" />
+  <br />
+  <br />
+  <p:panelGrid styleClass="frmPnlForm">
+	<p:row>
+	  <p:column>
+		<p:outputLabel for="txtFec" value="#{lbls['lbl.prueba.fecha']}" />
+	  </p:column>
+	  <p:column>
+		<p:calendar id="txtFec" value="#{PruebasMBean.pruebaNew.fecPrueba}" styleClass="frmFieldTxt"
+				mode="popup" showOn="both" navigator="true"
+				pattern="dd/MM/yyyy" locale="#{SessionMBean.idioma}" />
+	  </p:column>
+	</p:row>
+	<p:row>
+	  <p:column>
+		<p:outputLabel for="txtNom" value="#{lbls['lbl.prueba.titulo']}" />
+	  </p:column>
+	  <p:column>
+	  	<p:inputText id="txtNom" value="#{PruebasMBean.pruebaNew.nombre}" styleClass="frmFieldTxt"
+			required="true" /> 
+	  </p:column>
+	</p:row>
+	<p:row>
+	  <p:column>
+		<h:outputLabel for="txtDes" value="#{lbls['lbl.prueba.descripcion']}" />
+	  </p:column>
+	  <p:column>
+		<p:inputTextarea id="txtDes" value="#{PruebasMBean.pruebaNew.descripcion}" styleClass="frmFieldTxt"
+				rows="5" cols="50" maxlength="500"  />
+	  </p:column>
+	</p:row>
+	<p:row>
+	  <p:column colspan="2">
+	  <p:fileUpload value="#{PruebasMBean.archivoUpload}" styleClass="frmFieldTxt"
+				mode="simple" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc?)$/"
+				sizeLimit="1024000" fileLimit="1" uploadLabel="#{lbls['btn.upload']}"
+				update="messageZone" />
+
+	  </p:column>
+	</p:row>
+  </p:panelGrid>
+
+  <p:commandButton id="btnNPrueba" value="#{lbls['btn.nueva']}" styleClass="btnAccion"
+			actionListener="#{PruebasMBean.doCrearPrueba}" ajax="false"
+			update=":frmNota:tblPruebas" onsuccess="PF('dlgPrueba').hide();" />
+</h:form>
+</p:dialog>
+
+
+</ui:define>
+
+</ui:composition>
